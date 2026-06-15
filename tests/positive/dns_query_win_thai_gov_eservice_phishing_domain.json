@@ -1,0 +1,10 @@
+{
+  "EventID": 22,
+  "Channel": "Microsoft-Windows-Sysmon/Operational",
+  "Computer": "HR-WS07.corp.example.co.th",
+  "Image": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "QueryName": "thaid-login-verify.xyz",
+  "QueryResults": "203.0.113.88",
+  "User": "CORP\\staff42",
+  "_comment": "TRUE POSITIVE — โดเมนปลอม ThaID ที่ไม่ได้อยู่บน .go.th ต้อง alert"
+}

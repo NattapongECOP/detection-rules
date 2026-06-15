@@ -1,0 +1,56 @@
+title: Thai Government / e-Service Impersonation Domain (watchlist template)
+id: dde1619d-0e8f-4fe2-a96a-826320413a96
+status: experimental
+description: |
+  Detects DNS queries to domains that impersonate Thai government digital services
+  (ThaID / digital identity, ทางรัฐ, e-tax / คืนภาษี, social security, land transport).
+  Real Thai public-sector services live under the official .go.th / .gov.th namespace,
+  so a domain that carries a gov-service keyword but resolves OUTSIDE that namespace is
+  a strong phishing signal — the exact pattern used in SMS/LINE scams that lure Thai
+  citizens to fake "ลงทะเบียน / ยืนยันตัวตน / คืนภาษี" pages.
+
+  ⚠️ โดยตั้งใจ: เวอร์ชันสาธารณะใช้ "โทเคนบริการรัฐแบบทั่วไป" + allowlist ของ .go.th
+  ไม่ฮาร์ดโค้ดชื่อโดเมนหน่วยงานจริงเป็น signature ตายตัว เพื่อให้ evergreen และไม่ดูเป็น
+  การพุ่งเป้าหน่วยงานใดหน่วยงานหนึ่ง — เพิ่มแบรนด์/บริการที่ "องค์กรคุณ" เฝ้าระวังใน
+  selection_watchlist ของ private fork เอง (ECOP ดูแล watch-list สดให้ลูกค้าผ่าน XIPHER DRP)
+references:
+  - https://attack.mitre.org/techniques/T1566/002/
+  - https://www.thaicert.or.th/   # ThaiCERT / NCSA citizen-fraud advisories
+author: Nattapong Suraraungchai
+date: 2026-06-15
+tags:
+  - attack.initial-access
+  - attack.t1566.002
+  - ecop.sector.government
+  - ecop.region.th
+logsource:
+  category: dns_query
+  product: windows
+detection:
+  selection_gov_lure:
+    # โทเคนบริการรัฐ/ดิจิทัลไอดีที่มิจฉาชีพชอบเลียนแบบ (ไม่ใช่ชื่อโดเมนทางการ)
+    QueryName|contains:
+      - 'thaid'        # ThaID — แอปยืนยันตัวตนดิจิทัล เป้าปลอมอันดับต้น ๆ
+      - 'thaigov'
+      - 'thai-gov'
+      - 'gov-th'       # เช่น service-gov-th[.]xyz
+      - 'taxrefund'    # สแกม "คืนภาษี"
+      - 'tax-refund'
+      - 'rd-go'        # เลียนแบบกรมสรรพากร
+      - 'dlt-'         # เลียนแบบกรมการขนส่งทางบก
+      - 'sso-th'       # เลียนแบบประกันสังคม
+  selection_watchlist:
+    # 🔧 ปรับที่นี่ใน private fork — เพิ่มบริการ/แบรนด์รัฐที่ "องค์กรคุณ" เฝ้าระวัง
+    # ❌ ห้ามใส่ชื่อลูกค้า/แบรนด์ของผู้อื่นในเวอร์ชันสาธารณะ
+    QueryName|contains:
+      - 'example-thai-service'   # ← placeholder แทนด้วยบริการของคุณเอง
+  filter_official:
+    # บริการรัฐจริงอยู่บน .go.th / .gov.th เท่านั้น — allowlist namespace ทางการ
+    QueryName|endswith:
+      - '.go.th'
+      - '.gov.th'
+  condition: (selection_gov_lure or selection_watchlist) and not filter_official
+falsepositives:
+  - พาร์ทเนอร์/ผู้ให้บริการที่ใช้โทเคนเหล่านี้ในโดเมนโดยชอบแต่ไม่อยู่บน .go.th (เพิ่มเข้า allowlist เอง)
+  - แคมเปญ/ไมโครไซต์ของหน่วยงานที่จดโดเมนนอก .go.th ชั่วคราว — ควร verify แล้ว baseline
+level: high

@@ -1,0 +1,10 @@
+{
+  "EventID": 22,
+  "Channel": "Microsoft-Windows-Sysmon/Operational",
+  "Computer": "HR-WS07.corp.example.co.th",
+  "Image": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "QueryName": "www.thaid.go.th",
+  "QueryResults": "203.0.113.10",
+  "User": "CORP\\staff42",
+  "_comment": "TRUE NEGATIVE — โดเมนทางการบน .go.th แม้มีโทเคน thaid ก็ต้องไม่ alert"
+}
