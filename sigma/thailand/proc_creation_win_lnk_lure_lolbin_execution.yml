@@ -1,0 +1,64 @@
+title: Lure File (LNK/Document) Launching a LOLBin with Remote or Encoded Payload
+id: c7819e26-97ab-4b42-b5ad-24ab9d631fb6
+status: experimental
+description: |
+  Detects the classic "open a lure file → it silently runs a command" chain: a user
+  double-clicks a malicious shortcut/document (parent = explorer.exe) which then spawns a
+  living-off-the-land binary (powershell, mshta, rundll32, regsvr32, cmd) carrying a
+  remote URL, a sideloaded DLL, or an encoded/Base64 command.
+
+  This behaviour is the hallmark of the Mustang Panda (a.k.a. Stately Taurus) intrusion
+  chain — in 2026 the group used decoy "official" documents with a shortcut to deliver the
+  Yokai backdoor against the Royal Thai Police. เราจับ "พฤติกรรม" ของ chain นี้ ไม่ใช่ IOC
+  ของแคมเปญ (IP/hash/โดเมนเปลี่ยนได้ แต่วิธีการนี้เปลี่ยนยาก → rule ไม่เน่า)
+references:
+  - https://attack.mitre.org/techniques/T1204/002/
+  - https://attack.mitre.org/techniques/T1218/
+  - https://www.darktrace.com/blog/chinese-apt-target-royal-thai-police-in-malware-campaign
+author: Nattapong Suraraungchai
+date: 2026-06-22
+tags:
+  - attack.execution
+  - attack.t1204.002
+  - attack.t1059.001
+  - attack.defense-evasion
+  - attack.t1218.005
+  - ecop.region.th
+  - ecop.region.asean
+  - ecop.actor.mustang-panda
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_lolbin:
+    # ไฟล์ที่มัก "รันแทนเหยื่อ" หลังเปิด lure
+    Image|endswith:
+      - '\powershell.exe'
+      - '\pwsh.exe'
+      - '\mshta.exe'
+      - '\rundll32.exe'
+      - '\regsvr32.exe'
+      - '\cmd.exe'
+  selection_user_opened:
+    # parent = explorer.exe → ผู้ใช้ดับเบิลคลิกไฟล์ลวงเอง (ไม่ใช่ automation ปกติ)
+    ParentImage|endswith:
+      - '\explorer.exe'
+  selection_suspicious_cmd:
+    # คำสั่งที่ "ไม่ควรโผล่" จากการเปิดเอกสารทั่วไป
+    CommandLine|contains:
+      - 'http://'
+      - 'https://'
+      - '.dll'
+      - 'DownloadString'
+      - 'FromBase64String'
+      - 'javascript:'
+      - 'vbscript:'
+      - '-enc'
+      - '-EncodedCommand'
+      - 'iwr '
+      - 'curl '
+  condition: selection_lolbin and selection_user_opened and selection_suspicious_cmd
+falsepositives:
+  - สคริปต์ผู้ดูแลระบบ/IT ที่ผู้ใช้เปิดเองและมี URL ภายในโดยชอบ (ควร baseline แล้วเพิ่ม allowlist)
+  - เครื่องมือ deploy ที่ผู้ใช้เรียกผ่าน shortcut บนเดสก์ท็อป
+level: high

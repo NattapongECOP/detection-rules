@@ -1,0 +1,10 @@
+{
+  "EventID": 1,
+  "Channel": "Microsoft-Windows-Sysmon/Operational",
+  "Computer": "RTP-WS14.police.example.go.th",
+  "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+  "ParentImage": "C:\\Windows\\explorer.exe",
+  "CommandLine": "powershell.exe -NoExit -Command Get-ChildItem",
+  "User": "CORP\\officer.somchai",
+  "_comment": "TRUE NEGATIVE — ผู้ใช้เปิด PowerShell ปกติจากเดสก์ท็อป ไม่มี URL/DLL/encoded → ต้องไม่ alert"
+}

