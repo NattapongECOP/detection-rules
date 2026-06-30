@@ -1,0 +1,42 @@
+title: FortiGate SSL-VPN Successful Login from Unexpected Foreign Country
+id: 05bfb66b-b704-4ace-aa7f-414c8d08d01e
+status: experimental
+description: |
+  Detects a successful FortiGate SSL-VPN tunnel established from a source country that
+  is OUTSIDE an org-configurable allow-list (default: Thailand). Stolen VPN credentials
+  are typically replayed by the attacker from their own infrastructure abroad — so a
+  valid-account VPN login originating from an unexpected country is a strong indicator
+  of credential compromise.
+
+  บริบทปี 2026: ปฏิบัติการ "FortiBleed" กวาด credential จาก FortiGate กว่า 430,000 เครื่อง
+  ทั่วโลก rule นี้จับ "การนำ credential ที่ถูกขโมยไปใช้" (พฤติกรรม) แทนการไล่ตาม IOC ของแคมเปญ
+  ปรับ filter_allowed_country ให้ตรงประเทศที่พนักงานของคุณล็อกอินโดยชอบ (เช่น สาขาในต่างประเทศ)
+references:
+  - https://attack.mitre.org/techniques/T1078/
+  - https://attack.mitre.org/techniques/T1133/
+author: Nattapong Suraraungchai
+date: 2026-06-30
+tags:
+  - attack.initial-access
+  - attack.t1078
+  - attack.t1133
+  - ecop.region.th
+logsource:
+  product: fortigate
+  service: vpn
+detection:
+  selection_vpn_up:
+    # SSL-VPN tunnel ขึ้นสำเร็จ (ผู้ใช้ผ่าน auth แล้ว)
+    action: 'tunnel-up'
+    tunneltype|contains: 'ssl'
+  filter_allowed_country:
+    # 🔧 ปรับใน private fork — ใส่ประเทศที่พนักงานล็อกอินโดยชอบทั้งหมด
+    srccountry:
+      - 'Thailand'
+      - 'Reserved'   # RFC1918 / ที่อยู่ภายในที่ FortiGate ติดป้ายเป็น Reserved
+  condition: selection_vpn_up and not filter_allowed_country
+falsepositives:
+  - พนักงานเดินทาง/ทำงานจากต่างประเทศโดยชอบ (เพิ่มประเทศนั้นใน filter_allowed_country)
+  - สาขา/พาร์ทเนอร์ในต่างประเทศที่ใช้ SSL-VPN เป็นปกติ
+  - ผู้ใช้ที่ต่อผ่าน VPN/Proxy ของบุคคลที่สามทำให้ srccountry คลาดเคลื่อน
+level: medium

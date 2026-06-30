@@ -1,0 +1,11 @@
+{
+  "devname": "FGT-HQ-01",
+  "subtype": "vpn",
+  "action": "tunnel-up",
+  "tunneltype": "ssl-tunnel",
+  "user": "finance.user",
+  "remip": "203.0.113.77",
+  "srccountry": "Russian Federation",
+  "status": "success",
+  "_comment": "TRUE POSITIVE — SSL-VPN ขึ้นสำเร็จจากต่างประเทศ (นอก allow-list) = credential ที่ถูกขโมยถูกนำไปใช้"
+}

@@ -1,0 +1,11 @@
+{
+  "devname": "FGT-HQ-01",
+  "subtype": "vpn",
+  "action": "tunnel-up",
+  "tunneltype": "ssl-tunnel",
+  "user": "finance.user",
+  "remip": "1.10.0.55",
+  "srccountry": "Thailand",
+  "status": "success",
+  "_comment": "TRUE NEGATIVE — พนักงานล็อกอิน SSL-VPN จากในไทยตามปกติ ต้องไม่ alert"
+}
