@@ -46,6 +46,10 @@ regexes = [
   '''example\.com''',
   '''corp\.example\.co\.th''',
   '''nattapong@.*example''',
+  # ECOP taxonomy tags ในตัว rule (เช่น ecop.telemetry.ad) — regex internal-domain จับ ".ad" เป็น false positive
+  '''telemetry\.\w+''',
+  # ค่า placeholder IP ในไฟล์ test เก่า (fake ใช้ครั้งเดียวใน history; ของใหม่ใช้ RFC5737 doc range แล้ว)
+  '''10\.20\.30\.44''',
   # อีเมลบริษัท ECOP เอง (contact ที่ตั้งใจเปิดเผย ไม่ใช่ PII ลูกค้า)
   '''[\w.+-]+@ecop\.co\.th''',
   '''[\w.+-]+@bcg-ecop\.net''',
