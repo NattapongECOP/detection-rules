@@ -1,0 +1,10 @@
+{
+  "EventID": 4732,
+  "Channel": "Security",
+  "Computer": "DC01.corp.example.co.th",
+  "TargetUserName": "Marketing Team",
+  "TargetDomainName": "CORP",
+  "MemberName": "CN=new.staff,OU=Users,DC=corp,DC=example,DC=co,DC=th",
+  "SubjectUserName": "j.helpdesk",
+  "_comment": "TRUE NEGATIVE — เพิ่มสมาชิกเข้ากลุ่มทั่วไป (ไม่ใช่กลุ่มสิทธิ์สูง) ต้องไม่ alert"
+}

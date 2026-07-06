@@ -1,0 +1,42 @@
+title: Member Added to a Privileged Active Directory Group
+id: eeb6d938-ec74-4289-a4ce-b2aad5deb938
+status: experimental
+description: |
+  Detects a member being added to a highly privileged Active Directory group
+  (Domain Admins, Enterprise Admins, Schema Admins, Administrators, etc.) via the
+  security-log group-membership-change events. Attackers add a controlled account to
+  a privileged group to establish persistence and escalate privileges after gaining
+  a foothold; legitimate additions are rare and should always be reviewed.
+
+  telemetry: AD / Domain Controller Security log (Event ID 4728 global / 4732 local /
+  4756 universal) — log ที่ลูกค้ามีจริง ไม่ต้องมี Sysmon
+references:
+  - https://attack.mitre.org/techniques/T1098/
+  - https://attack.mitre.org/techniques/T1078/002/
+author: Nattapong Suraraungchai
+date: 2026-07-06
+tags:
+  - attack.persistence
+  - attack.privilege-escalation
+  - attack.t1098
+  - ecop.telemetry.ad
+  - ecop.region.th
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID:
+      - 4728   # member added to a security-enabled GLOBAL group
+      - 4732   # member added to a security-enabled LOCAL group
+      - 4756   # member added to a security-enabled UNIVERSAL group
+    TargetUserName|contains:
+      - 'Admins'            # Domain Admins, Enterprise Admins, Schema Admins
+      - 'Administrators'    # Built-in Administrators
+      - 'Backup Operators'
+      - 'Account Operators'
+  condition: selection
+falsepositives:
+  - การเพิ่มผู้ดูแลระบบใหม่โดยชอบธรรม (ควรมี change ticket รองรับ — review ทุกครั้ง)
+  - เครื่องมือ IAM/PAM ที่เพิ่มสมาชิกชั่วคราวแบบ just-in-time
+level: high

@@ -1,0 +1,11 @@
+{
+  "EventID": 4662,
+  "Channel": "Security",
+  "Computer": "DC01.corp.example.co.th",
+  "ObjectType": "%{19195a5b-6da0-11d0-afd3-00c04fd930c9}",
+  "Properties": "Control Access; {1131f6aa-9c07-11d1-f79f-00c04fc2dcd2}; DS-Replication-Get-Changes",
+  "AccessMask": "0x100",
+  "SubjectUserName": "DC02$",
+  "SubjectDomainName": "CORP",
+  "_comment": "TRUE NEGATIVE — DC อีกเครื่อง (ลงท้าย $) ทำ replication ตามปกติ ต้องไม่ alert"
+}

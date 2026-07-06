@@ -1,0 +1,42 @@
+title: DCSync — Directory Replication Requested by a Non-DC Account
+id: 3ea8f6c5-9cdb-4e95-a6f6-bbcd72c1fb94
+status: experimental
+description: |
+  Detects a DCSync credential-theft attempt: a user or non-DC account requests the
+  Active Directory replication rights (DS-Replication-Get-Changes / -All) via a
+  directory-service access event. Attackers use DCSync (Mimikatz/impacket) to pull
+  password hashes for any account — including krbtgt — without touching a domain
+  controller's disk, so it is a common precursor to Golden Ticket and ransomware.
+
+  telemetry: AD / Domain Controller Security log (Event ID 4662) — เป็น log ที่ลูกค้ามีจริง
+  ไม่ต้องมี Sysmon. ปรับ filter ให้รวมบัญชี sync ที่ชอบธรรม (เช่น Entra Connect / MSOL_)
+references:
+  - https://attack.mitre.org/techniques/T1003/006/
+author: Nattapong Suraraungchai
+date: 2026-07-06
+tags:
+  - attack.credential-access
+  - attack.t1003.006
+  - ecop.telemetry.ad
+  - ecop.region.th
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4662
+    Properties|contains:
+      # GUID ของสิทธิ์ replication ที่ DCSync ต้องใช้
+      - '1131f6aa-9c07-11d1-f79f-00c04fc2dcd2'   # DS-Replication-Get-Changes
+      - '1131f6ad-9c07-11d1-f79f-00c04fc2dcd2'   # DS-Replication-Get-Changes-All
+  filter_machine_account:
+    # DC และบัญชีเครื่อง (ลงท้าย $) ทำ replication โดยชอบธรรม
+    SubjectUserName|endswith: '$'
+  filter_sync_account:
+    # 🔧 เพิ่มบัญชี sync ที่ชอบธรรมของคุณ (Entra/Azure AD Connect ฯลฯ)
+    SubjectUserName|startswith: 'MSOL_'
+  condition: selection and not (filter_machine_account or filter_sync_account)
+falsepositives:
+  - บัญชี Azure AD Connect / Entra Connect (เพิ่มใน filter_sync_account)
+  - เครื่องมือ backup/monitoring ของ AD ที่ใช้สิทธิ์ replication โดยชอบ
+level: high

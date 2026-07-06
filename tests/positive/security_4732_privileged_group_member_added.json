@@ -1,0 +1,10 @@
+{
+  "EventID": 4732,
+  "Channel": "Security",
+  "Computer": "DC01.corp.example.co.th",
+  "TargetUserName": "Administrators",
+  "TargetDomainName": "Builtin",
+  "MemberName": "CN=temp.contractor,OU=Users,DC=corp,DC=example,DC=co,DC=th",
+  "SubjectUserName": "j.helpdesk",
+  "_comment": "TRUE POSITIVE — เพิ่มบัญชีเข้ากลุ่ม Administrators = persistence/privesc"
+}
