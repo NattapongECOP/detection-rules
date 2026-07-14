@@ -2,10 +2,15 @@ title: IIS Worker Process Spawning a Command Shell
 id: d2791e9e-0a8b-4775-9937-52a88a379b0f
 status: experimental
 description: |
-  Detects the IIS worker process (w3wp.exe) or an Apache/PHP/Java web process
-  spawning a command interpreter. This is a high-confidence sign that a webshell
-  is being executed on the server — the active-exploitation stage following a
-  successful webshell upload.
+  Detects a web-server process (IIS w3wp.exe, Apache httpd, nginx, PHP, Tomcat)
+  spawning a command interpreter or a download/recon LOLBin. This is a high-confidence
+  sign that a webshell is being executed on the server — the active-exploitation stage
+  after a web-app RCE or webshell upload.
+
+  บริบทปี 2026: ครอบคลุมคลื่นการเจาะเว็บที่ระบาด เช่น SharePoint RCE (CVE-2026-45659,
+  กลุ่ม Storm-2603 → Warlock ransomware ผ่าน w3wp.exe) และช่องโหว่ unrestricted-upload
+  ของ CMS (Joomla/WordPress ผ่าน php/httpd) ที่ลงท้ายด้วยการฝัง webshell
+  telemetry: EDR / process log — ไม่ต้องมี Sysmon (EDR ส่ง process event ได้)
 references:
   - https://attack.mitre.org/techniques/T1505/003/
   - https://attack.mitre.org/techniques/T1190/
@@ -13,7 +18,10 @@ author: Nattapong Suraraungchai
 date: 2026-06-01
 tags:
   - attack.persistence
+  - attack.initial-access
   - attack.t1505.003
+  - attack.t1190
+  - ecop.telemetry.edr
   - ecop.sector.gov
   - ecop.region.th
 logsource:
@@ -22,9 +30,11 @@ logsource:
 detection:
   selection_parent:
     ParentImage|endswith:
-      - '\w3wp.exe'
-      - '\httpd.exe'
+      - '\w3wp.exe'       # IIS / SharePoint worker
+      - '\httpd.exe'      # Apache
+      - '\nginx.exe'
       - '\php-cgi.exe'
+      - '\php.exe'
       - '\tomcat.exe'
   selection_child:
     Image|endswith:
@@ -32,8 +42,15 @@ detection:
       - '\powershell.exe'
       - '\pwsh.exe'
       - '\net.exe'
+      - '\net1.exe'
       - '\whoami.exe'
+      - '\wscript.exe'
+      - '\cscript.exe'
+      - '\certutil.exe'
+      - '\bitsadmin.exe'
+      - '\curl.exe'
   condition: selection_parent and selection_child
 falsepositives:
   - เว็บแอปบางตัวที่เรียก command line โดยตั้งใจ (ควร baseline แล้ว whitelist คำสั่งที่รู้จัก)
+  - สคริปต์ deploy/health-check ที่รันภายใต้ web process โดยชอบ
 level: high

@@ -1,0 +1,9 @@
+{
+  "src_ip": "203.0.113.77",
+  "cs-method": "GET",
+  "c-uri": "/media/2026/07/logo.php?cmd=whoami",
+  "sc-status": 200,
+  "cs-bytes": 42,
+  "c-useragent": "curl/8.7.1",
+  "_comment": "TRUE POSITIVE — สคริปต์ .php ในโฟลเดอร์ /media/ ถูกเรียกพร้อม cmd= = webshell"
+}

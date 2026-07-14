@@ -1,0 +1,63 @@
+title: Web Request to a Script in an Upload Directory or with Command Parameters
+id: 46f6011b-9f1d-479b-964e-1fdfb9e35f7b
+status: experimental
+description: |
+  Detects likely webshell access in web-server / WAF / reverse-proxy access logs:
+  either a request for a server-side script (.php/.aspx/.jsp/.cfm) located inside a
+  user-writable upload/media directory, or a request URL carrying command-execution
+  parameters (cmd=, whoami, ?c=, system(). Attackers drop a webshell into a writable
+  folder after an unrestricted-file-upload or RCE flaw, then call it to run commands.
+
+  บริบทปี 2026: ตรงกับคลื่นเจาะ CMS/เว็บที่ระบาด — Joomla SP Page Builder (CVE-2026-48908),
+  iCagenda, Balbooa Forms และ SharePoint RCE ที่จบด้วยการฝัง webshell รวมถึง web
+  defacement ของหน่วยงานรัฐไทย
+  telemetry: Web server access log / WAF / reverse proxy — log ที่แทบทุกเว็บมีอยู่แล้ว
+references:
+  - https://attack.mitre.org/techniques/T1505/003/
+  - https://attack.mitre.org/techniques/T1190/
+author: Nattapong Suraraungchai
+date: 2026-07-13
+tags:
+  - attack.persistence
+  - attack.t1505.003
+  - ecop.telemetry.web
+  - ecop.sector.gov
+  - ecop.region.th
+logsource:
+  category: webserver
+detection:
+  selection_dir:
+    # โฟลเดอร์ที่ผู้ใช้เขียนไฟล์ได้ (มัก host webshell)
+    c-uri|contains:
+      - '/uploads/'
+      - '/upload/'
+      - '/images/'
+      - '/media/'
+      - '/files/'
+      - '/assets/'
+      - '/tmp/'
+      - '/cache/'
+  selection_script:
+    # สคริปต์ฝั่งเซิร์ฟเวอร์ที่รันได้
+    c-uri|contains:
+      - '.php'
+      - '.asp'
+      - '.aspx'
+      - '.jsp'
+      - '.jspx'
+      - '.cfm'
+  selection_cmd:
+    # พารามิเตอร์สั่งรันคำสั่ง (webshell ทั่วไป)
+    c-uri|contains:
+      - 'cmd='
+      - '?c='
+      - '&c='
+      - 'whoami'
+      - 'exec='
+      - 'system('
+      - '/bin/sh'
+  condition: (selection_dir and selection_script) or selection_cmd
+falsepositives:
+  - เว็บแอปที่วางสคริปต์ในโฟลเดอร์เหล่านี้โดยชอบ (เพิ่ม path ที่รู้จักใน allowlist)
+  - พารามิเตอร์ที่มีคำว่า cmd/exec โดยบังเอิญในแอปปกติ (baseline ก่อน)
+level: high

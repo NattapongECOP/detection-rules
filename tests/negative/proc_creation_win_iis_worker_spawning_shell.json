@@ -1,0 +1,10 @@
+{
+  "EventID": 1,
+  "Channel": "Microsoft-Windows-Sysmon/Operational",
+  "Computer": "SP-WFE01.corp.example.co.th",
+  "ParentImage": "C:\\Windows\\System32\\services.exe",
+  "Image": "C:\\Windows\\System32\\inetsrv\\w3wp.exe",
+  "CommandLine": "c:\\windows\\system32\\inetsrv\\w3wp.exe -ap \"SharePoint\"",
+  "User": "IIS APPPOOL\\SharePoint",
+  "_comment": "TRUE NEGATIVE — services.exe เปิด w3wp.exe ตามปกติ (w3wp เป็นลูก ไม่ใช่พ่อของ shell) ต้องไม่ alert"
+}

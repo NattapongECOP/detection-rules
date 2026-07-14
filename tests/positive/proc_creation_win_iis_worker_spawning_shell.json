@@ -1,0 +1,10 @@
+{
+  "EventID": 1,
+  "Channel": "Microsoft-Windows-Sysmon/Operational",
+  "Computer": "SP-WFE01.corp.example.co.th",
+  "ParentImage": "C:\\Windows\\System32\\inetsrv\\w3wp.exe",
+  "Image": "C:\\Windows\\System32\\cmd.exe",
+  "CommandLine": "cmd.exe /c whoami",
+  "User": "IIS APPPOOL\\SharePoint",
+  "_comment": "TRUE POSITIVE — SharePoint/IIS worker (w3wp.exe) เรียก cmd = webshell/RCE (เช่น CVE-2026-45659)"
+}

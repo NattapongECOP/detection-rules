@@ -1,0 +1,9 @@
+{
+  "src_ip": "203.0.113.90",
+  "cs-method": "GET",
+  "c-uri": "/uploads/2026/07/product-photo.jpg",
+  "sc-status": 200,
+  "cs-bytes": 51200,
+  "c-useragent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0.0.0 Safari/537.36",
+  "_comment": "TRUE NEGATIVE — เรียกรูปภาพในโฟลเดอร์ upload ตามปกติ (ไม่ใช่สคริปต์/ไม่มี cmd) ต้องไม่ alert"
+}
