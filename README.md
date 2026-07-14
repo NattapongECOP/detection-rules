@@ -74,10 +74,10 @@ sigma convert -t elasticsearch sigma/finance/proc_creation_win_lsass_dump_comsvc
 | 🥷 Defense Evasion | 6 | mshta, regsvr32 (Squiblydoo), ล้าง event log, ปิด MFA |
 | 📡 Command & Control | 5 | LOLBin ต่อออกเน็ต, C2 ports, DNS แปลก |
 | 🔑 Credential Access | 4 | **LSASS dump**, NTDS.dit, Kerberoasting |
-| 📤 Exfiltration | 3 | SMB ออกนอก, **inbox forwarding (BEC)**, mailbox forward |
 | ⬆️ Privilege Escalation | 3 | service creation, Azure AD role |
-| 📦 Collection | 2 | M365 mail forwarding rules |
+| 📤 Exfiltration | 3 | SMB ออกนอก, **inbox forwarding (BEC)**, mailbox forward |
 | ↔️ Lateral Movement | 2 | **PsExec**, WMIC remote |
+| 📦 Collection | 2 | M365 mail forwarding rules |
 | 💥 Impact | 1 | **ลบ shadow copy (ransomware)** |
 <!-- COVERAGE:END -->
 
