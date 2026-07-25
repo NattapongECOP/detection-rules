@@ -1,0 +1,39 @@
+title: OAuth Application Consent or Permission Grant in Entra ID
+id: 55c12747-af14-4391-9e5a-9cf30c335c4c
+status: experimental
+description: |
+  Detects consent being granted to an OAuth application, or an OAuth2 permission /
+  app-role grant being added, in Microsoft Entra ID (Azure AD) audit logs. After an
+  Adversary-in-the-Middle (AiTM) phishing attack such as Evilginx steals a valid
+  session token and bypasses MFA, a common persistence step is to consent a malicious
+  OAuth app — the granted access token survives password resets and MFA changes,
+  giving the attacker long-term API access to mail and data (consent phishing).
+
+  telemetry: Microsoft 365 / Entra ID Audit log — log ที่องค์กรผู้ใช้ M365 มีอยู่แล้ว
+  ไม่ต้องมี Sysmon. ตรวจสอบทุกครั้งว่าแอปและสิทธิ์ที่ขอสมเหตุสมผลหรือไม่ (review scope)
+references:
+  - https://attack.mitre.org/techniques/T1528/
+  - https://attack.mitre.org/techniques/T1550/001/
+author: Nattapong Suraraungchai
+date: 2026-07-20
+tags:
+  - attack.persistence
+  - attack.credential-access
+  - attack.t1528
+  - ecop.telemetry.m365
+  - ecop.region.th
+logsource:
+  product: azure
+  service: auditlogs
+detection:
+  selection:
+    Operation|contains:
+      - 'Consent to application'
+      - 'Add OAuth2PermissionGrant'
+      - 'Add delegated permission grant'
+      - 'Add app role assignment grant to user'
+  condition: selection
+falsepositives:
+  - การติดตั้ง/อนุมัติแอปที่ชอบธรรมโดยผู้ดูแลระบบ (ควรมี change ticket + ตรวจ scope ที่ขอ)
+  - แอป Microsoft/พาร์ทเนอร์ที่รู้จักและอยู่ใน allowlist ขององค์กร
+level: medium

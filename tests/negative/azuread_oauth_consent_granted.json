@@ -1,0 +1,8 @@
+{
+  "Workload": "AzureActiveDirectory",
+  "Operation": "UserLoggedIn",
+  "ResultStatus": "Success",
+  "UserId": "finance.user@example.co.th",
+  "ClientIP": "1.10.20.30",
+  "_comment": "TRUE NEGATIVE — การล็อกอินปกติ ไม่ใช่การให้สิทธิ์แอป ต้องไม่ alert"
+}

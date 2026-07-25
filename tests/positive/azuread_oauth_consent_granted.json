@@ -1,0 +1,9 @@
+{
+  "Workload": "AzureActiveDirectory",
+  "Operation": "Consent to application",
+  "ResultStatus": "Success",
+  "UserId": "finance.user@example.co.th",
+  "ObjectId": "Suspicious Mail Reader",
+  "ClientIP": "198.51.100.23",
+  "_comment": "TRUE POSITIVE — ผู้ใช้ให้ consent แก่แอป OAuth ภายนอก (ขั้นฝังตัวหลัง AiTM/token theft)"
+}
