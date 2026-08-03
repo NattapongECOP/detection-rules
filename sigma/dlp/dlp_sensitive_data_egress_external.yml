@@ -1,0 +1,53 @@
+title: Sensitive Data Egress to a Personal or External Destination (DLP)
+id: 357ec920-e5e9-4e56-a900-544431fbb32e
+status: experimental
+description: |
+  Detects a Data Loss Prevention (DLP) event where sensitive content matched a
+  high-severity policy and was allowed to leave the organization toward a personal
+  or unsanctioned destination (personal webmail, personal cloud storage, file-transfer
+  sites, or removable media) — i.e. the action was NOT blocked. This indicates data
+  actually left the perimeter, whether by a malicious insider or an attacker staging
+  double-extortion exfiltration.
+
+  telemetry: DLP alert log (Forcepoint/Symantec/Microsoft Purview/Trellix ฯลฯ) — ปรับชื่อ
+  field (action/severity/destination) ให้ตรงกับ DLP ของคุณ เพราะแต่ละยี่ห้อ schema ต่างกัน
+references:
+  - https://attack.mitre.org/techniques/T1567/002/
+  - https://attack.mitre.org/techniques/T1052/
+author: Nattapong Suraraungchai
+date: 2026-08-21
+tags:
+  - attack.exfiltration
+  - attack.t1567.002
+  - ecop.telemetry.dlp
+  - ecop.region.th
+logsource:
+  category: dlp
+detection:
+  selection_sensitive:
+    severity|contains:
+      - 'High'
+      - 'Critical'
+  selection_destination:
+    destination|contains:
+      - 'gmail'
+      - 'outlook.com'
+      - 'hotmail'
+      - 'personal'
+      - 'dropbox'
+      - 'drive.google'
+      - 'wetransfer'
+      - 'mega.nz'
+      - 'usb'
+      - 'removable'
+  filter_blocked:
+    action|contains:
+      - 'Block'
+      - 'Prevent'
+      - 'Quarantine'
+      - 'Denied'
+  condition: (selection_sensitive and selection_destination) and not filter_blocked
+falsepositives:
+  - พนักงานส่งไฟล์ไปยังบัญชี/คลาวด์ที่ได้รับอนุมัติ (เพิ่ม destination ที่ชอบใน allowlist)
+  - นโยบาย DLP ที่ตั้ง severity สูงเกินจริง (ปรับ tuning ก่อน)
+level: high

@@ -1,0 +1,10 @@
+{
+  "action": "allow",
+  "src_zone": "WAN_untrust",
+  "dst_zone": "DMZ",
+  "src_ip": "203.0.113.55",
+  "dst_ip": "198.51.100.10",
+  "dst_port": 3306,
+  "protocol": "tcp",
+  "_comment": "TRUE POSITIVE — อนุญาต inbound จากโซน WAN มายังพอร์ต MySQL (3306) = ฐานข้อมูลเปิดออกเน็ต"
+}

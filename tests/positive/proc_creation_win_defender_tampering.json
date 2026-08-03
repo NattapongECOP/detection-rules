@@ -1,0 +1,10 @@
+{
+  "EventID": 1,
+  "Channel": "Microsoft-Windows-Sysmon/Operational",
+  "Computer": "FIN-WS22.corp.example.co.th",
+  "ParentImage": "C:\\Windows\\System32\\cmd.exe",
+  "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+  "CommandLine": "powershell.exe -nop -w hidden Set-MpPreference -DisableRealtimeMonitoring $true",
+  "User": "CORP\\victim",
+  "_comment": "TRUE POSITIVE — สั่งปิด real-time protection ของ Defender (ก่อนปล่อย payload)"
+}

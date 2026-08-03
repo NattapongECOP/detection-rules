@@ -1,0 +1,9 @@
+{
+  "policy": "PII - Thai Citizen ID",
+  "severity": "High",
+  "user": "sales.user@example.co.th",
+  "destination": "upload to personal Gmail (webmail)",
+  "action": "Allowed",
+  "filename": "customer_list_2026.xlsx",
+  "_comment": "TRUE POSITIVE — ข้อมูล PII ระดับ High ถูกส่งออกไปเมลส่วนตัว และไม่ถูกบล็อก"
+}

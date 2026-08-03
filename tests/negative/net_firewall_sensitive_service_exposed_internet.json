@@ -1,0 +1,8 @@
+{
+  "action": "allow",
+  "src_zone": "LAN_trust",
+  "dst_zone": "DATACENTER",
+  "dst_port": 3306,
+  "protocol": "tcp",
+  "_comment": "TRUE NEGATIVE — การเชื่อมต่อ MySQL จากโซนภายใน (LAN) ตามปกติ ต้องไม่ alert"
+}

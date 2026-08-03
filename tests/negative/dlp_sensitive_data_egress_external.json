@@ -1,0 +1,9 @@
+{
+  "policy": "PII - Thai Citizen ID",
+  "severity": "High",
+  "user": "sales.user@example.co.th",
+  "destination": "upload to personal Gmail (webmail)",
+  "action": "Blocked",
+  "filename": "customer_list_2026.xlsx",
+  "_comment": "TRUE NEGATIVE — เหตุการณ์เดียวกันแต่ DLP บล็อกไว้แล้ว (ข้อมูลไม่ได้ออก) ต้องไม่ alert"
+}

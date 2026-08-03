@@ -1,0 +1,55 @@
+title: Windows Defender / Security Tooling Tampering
+id: 630f164e-ff63-429b-9e89-7b0c25eaf1ad
+status: experimental
+description: |
+  Detects attempts to disable, weaken, or exclude paths from Microsoft Defender and
+  related security services via command line — turning off real-time protection,
+  adding exclusion paths, or stopping the Defender / Defender-for-Endpoint services.
+  Ransomware operators and post-exploitation frameworks routinely disable endpoint
+  protection immediately before deploying their payload, so this is a high-confidence
+  pre-attack signal.
+
+  telemetry: EDR / process log — ไม่ต้องมี Sysmon (EDR ส่ง process-creation event ได้)
+  บริบทปี 2026: รายงาน IR หลายฉบับชี้ว่า ransomware ปิด/ยกเว้น AV ก่อนเข้ารหัสไฟล์เสมอ
+references:
+  - https://attack.mitre.org/techniques/T1562/001/
+author: Nattapong Suraraungchai
+date: 2026-08-14
+tags:
+  - attack.defense-evasion
+  - attack.t1562.001
+  - ecop.telemetry.edr
+  - ecop.region.th
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_powershell:
+    Image|endswith:
+      - '\powershell.exe'
+      - '\pwsh.exe'
+    CommandLine|contains:
+      - 'Set-MpPreference'
+      - 'DisableRealtimeMonitoring'
+      - 'DisableBehaviorMonitoring'
+      - 'DisableIOAVProtection'
+      - 'DisableScriptScanning'
+      - 'MpPreference -Exclusion'
+      - 'Add-MpPreference -ExclusionPath'
+  selection_service_stop:
+    CommandLine|contains:
+      - 'stop WinDefend'
+      - 'stop Sense'
+      - 'stop SecurityHealthService'
+      - 'stop WdNisSvc'
+  selection_registry:
+    Image|endswith: '\reg.exe'
+    CommandLine|contains:
+      - 'DisableAntiSpyware'
+      - 'DisableAntiVirus'
+      - '\Windows Defender\Real-Time Protection'
+  condition: selection_powershell or selection_service_stop or selection_registry
+falsepositives:
+  - ผู้ดูแลระบบ/IT ปิดชั่วคราวเพื่อ troubleshoot หรือติดตั้งซอฟต์แวร์ (ควรมี change ticket)
+  - สคริปต์ deploy EDR ที่เพิ่ม exclusion path โดยชอบ (baseline แล้ว allowlist)
+level: high

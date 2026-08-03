@@ -1,0 +1,10 @@
+{
+  "EventID": 1,
+  "Channel": "Microsoft-Windows-Sysmon/Operational",
+  "Computer": "FIN-WS22.corp.example.co.th",
+  "ParentImage": "C:\\Windows\\explorer.exe",
+  "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+  "CommandLine": "powershell.exe Get-MpComputerStatus",
+  "User": "CORP\\it.admin",
+  "_comment": "TRUE NEGATIVE — ตรวจสอบสถานะ Defender ตามปกติ (ไม่ได้ปิด/ยกเว้น) ต้องไม่ alert"
+}

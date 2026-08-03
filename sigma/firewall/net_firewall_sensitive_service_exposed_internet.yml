@@ -1,0 +1,48 @@
+title: Sensitive Remote-Access or Database Service Exposed to the Internet
+id: e6916ef5-644e-4ee8-b0ea-62702aa98200
+status: experimental
+description: |
+  Detects an allowed inbound connection from an external/WAN zone to a sensitive
+  remote-access or database service (SSH, Telnet, FTP, SMB, WinRM, MSSQL, MySQL,
+  PostgreSQL). Such services should almost never be exposed directly to the Internet;
+  attackers routinely scan for and exploit them for initial access, and exposed
+  management/appliance interfaces have driven several 2026 intrusions.
+
+  telemetry: NGFW / Firewall traffic log — log ที่ลูกค้ามีอยู่แล้ว ไม่ต้องมี Sysmon
+  ปรับ src_zone / dst_port ให้ตรงกับการตั้งชื่อโซนของอุปกรณ์ของคุณ และ allowlist บริการ
+  ที่เผยแพร่โดยตั้งใจ (เช่น SFTP สำหรับพาร์ทเนอร์)
+references:
+  - https://attack.mitre.org/techniques/T1133/
+author: Nattapong Suraraungchai
+date: 2026-08-07
+tags:
+  - attack.initial-access
+  - attack.t1133
+  - ecop.telemetry.ngfw
+  - ecop.region.th
+logsource:
+  category: firewall
+detection:
+  selection:
+    action: 'allow'
+    src_zone|contains:
+      - 'wan'
+      - 'untrust'
+      - 'outside'
+      - 'internet'
+      - 'external'
+    dst_port:
+      - 22      # SSH
+      - 23      # Telnet
+      - 21      # FTP
+      - 445     # SMB
+      - 5985    # WinRM HTTP
+      - 5986    # WinRM HTTPS
+      - 1433    # MSSQL
+      - 3306    # MySQL
+      - 5432    # PostgreSQL
+  condition: selection
+falsepositives:
+  - บริการที่องค์กรตั้งใจเผยแพร่สู่อินเทอร์เน็ต (เช่น SFTP/bastion) — เพิ่มใน allowlist
+  - อุปกรณ์/สแกนเนอร์ภายในที่ระบบ log ตีความ zone ผิด (ตรวจการ mapping โซน)
+level: high
