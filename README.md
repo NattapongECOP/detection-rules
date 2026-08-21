@@ -70,8 +70,8 @@ sigma convert -t elasticsearch sigma/finance/proc_creation_win_lsass_dump_comsvc
 |---|:---:|---|
 | 📌 Persistence | 11 | Run key, scheduled task, service, Azure AD admin role |
 | 🚪 Initial Access | 10 | RDP เปิดออกเน็ต, SQLi, path traversal, **Log4Shell** |
-| 📡 Command & Control | 7 | LOLBin ต่อออกเน็ต, C2 ports, DNS แปลก |
 | 🥷 Defense Evasion | 7 | mshta, regsvr32 (Squiblydoo), ล้าง event log, ปิด MFA |
+| 📡 Command & Control | 7 | LOLBin ต่อออกเน็ต, C2 ports, DNS แปลก |
 | ▶️ Execution | 7 | PowerShell encoded, WMIC, **Office macro phishing** |
 | 🔑 Credential Access | 6 | **LSASS dump**, NTDS.dit, Kerberoasting |
 | 📤 Exfiltration | 4 | SMB ออกนอก, **inbox forwarding (BEC)**, mailbox forward |
