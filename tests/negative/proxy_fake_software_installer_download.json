@@ -1,0 +1,9 @@
+{
+  "src_ip": "198.51.100.61",
+  "cs-method": "GET",
+  "c-uri": "https://cdn.zoom.us/prod/6.0/ZoomInstaller.exe",
+  "r-dns": "cdn.zoom.us",
+  "sc-status": 200,
+  "c-useragent": "Mozilla/5.0",
+  "_comment": "TRUE NEGATIVE — โหลด Zoom จากโดเมนทางการ (.zoom.us) ต้องไม่ alert"
+}

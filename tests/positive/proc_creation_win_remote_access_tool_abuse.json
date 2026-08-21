@@ -1,0 +1,10 @@
+{
+  "EventID": 1,
+  "Channel": "Microsoft-Windows-Sysmon/Operational",
+  "Computer": "FIN-WS31.corp.example.co.th",
+  "ParentImage": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "Image": "C:\\Users\\victim\\Downloads\\AnyDesk.exe",
+  "CommandLine": "AnyDesk.exe --plugin",
+  "User": "CORP\\victim",
+  "_comment": "TRUE POSITIVE — เหยื่อโหลด AnyDesk แบบพกพาจาก Downloads (สไตล์แก๊งคอลเซ็นเตอร์)"
+}

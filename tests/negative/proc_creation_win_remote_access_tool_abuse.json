@@ -1,0 +1,10 @@
+{
+  "EventID": 1,
+  "Channel": "Microsoft-Windows-Sysmon/Operational",
+  "Computer": "FIN-WS31.corp.example.co.th",
+  "ParentImage": "C:\\Windows\\explorer.exe",
+  "Image": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "CommandLine": "chrome.exe",
+  "User": "CORP\\staff",
+  "_comment": "TRUE NEGATIVE — เปิดเบราว์เซอร์ปกติ ไม่ใช่เครื่องมือรีโมท ต้องไม่ alert"
+}

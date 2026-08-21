@@ -1,0 +1,11 @@
+{
+  "EventID": 4769,
+  "Channel": "Security",
+  "Computer": "DC01.corp.example.co.th",
+  "ServiceName": "MSSQLSvc/db01.example.co.th:1433",
+  "TicketEncryptionType": "0x17",
+  "TicketOptions": "0x40810000",
+  "IpAddress": "198.51.100.77",
+  "TargetUserName": "attacker",
+  "_comment": "TRUE POSITIVE — ขอตั๋ว RC4 (0x17) ให้บัญชีบริการ MSSQLSvc = Kerberoasting"
+}

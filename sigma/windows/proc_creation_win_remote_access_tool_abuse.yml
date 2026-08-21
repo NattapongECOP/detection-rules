@@ -1,0 +1,42 @@
+title: Remote Access Software Execution (AnyDesk / TeamViewer / etc.)
+id: e682560c-980c-4c8a-af42-fff21bc1a641
+status: experimental
+description: |
+  Detects execution of common remote-access / remote-support software such as AnyDesk,
+  TeamViewer, UltraViewer, RustDesk, and ScreenConnect. Attackers and scam operators
+  (notably Thai call-center fraud) trick victims into installing these tools to obtain
+  hands-on-keyboard control, and ransomware crews use them for persistence and lateral
+  access. If your organisation does not officially use a given tool, its execution is a
+  strong indicator of compromise or social-engineering.
+
+  telemetry: EDR / process log — ไม่ต้องมี Sysmon
+  ปรับ allowlist: หากองค์กรใช้เครื่องมือใดอย่างเป็นทางการ ให้ยกเว้นด้วย path ที่ติดตั้งจริง
+  (ไฟล์แบบพกพา/ad-hoc เช่น aa_v3.exe ที่รันจาก Downloads คือสัญญาณของสแกม)
+references:
+  - https://attack.mitre.org/techniques/T1219/
+author: Nattapong Suraraungchai
+date: 2026-09-02
+tags:
+  - attack.command-and-control
+  - attack.t1219
+  - ecop.telemetry.edr
+  - ecop.region.th
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image|endswith:
+      - '\AnyDesk.exe'
+      - '\aa_v3.exe'
+      - '\TeamViewer.exe'
+      - '\TeamViewer_Service.exe'
+      - '\UltraViewer_Desktop.exe'
+      - '\rustdesk.exe'
+      - '\ScreenConnect.ClientService.exe'
+      - '\AweSun.exe'
+  condition: selection
+falsepositives:
+  - องค์กรที่ใช้เครื่องมือรีโมทตัวใดตัวหนึ่งเป็นทางการ (ยกเว้นด้วย path ที่ติดตั้งจริง)
+  - ทีม IT/helpdesk ที่ใช้รีโมทช่วยผู้ใช้ตามคำขอที่ถูกต้อง (ควรมี ticket)
+level: medium

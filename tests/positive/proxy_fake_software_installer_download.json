@@ -1,0 +1,9 @@
+{
+  "src_ip": "198.51.100.61",
+  "cs-method": "GET",
+  "c-uri": "http://zoom-download-secure.xyz/update/ZoomInstaller.exe",
+  "r-dns": "zoom-download-secure.xyz",
+  "sc-status": 200,
+  "c-useragent": "Mozilla/5.0",
+  "_comment": "TRUE POSITIVE — โหลดตัวติดตั้ง Zoom (.exe) จากโดเมนปลอมที่ไม่ใช่ zoom.us"
+}

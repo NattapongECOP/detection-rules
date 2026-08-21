@@ -1,0 +1,10 @@
+{
+  "action": "allow",
+  "app": "telegram",
+  "src_zone": "DMZ_Servers",
+  "dst_zone": "WAN_untrust",
+  "src_ip": "198.51.100.20",
+  "dst_ip": "203.0.113.40",
+  "dst_port": 443,
+  "_comment": "TRUE POSITIVE — เซิร์ฟเวอร์ในโซน DMZ ต่อออก Telegram = อาจเป็น C2/exfil"
+}

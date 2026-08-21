@@ -1,0 +1,10 @@
+{
+  "action": "allow",
+  "app": "telegram",
+  "src_zone": "LAN_Users",
+  "dst_zone": "WAN_untrust",
+  "src_ip": "198.51.100.120",
+  "dst_ip": "203.0.113.40",
+  "dst_port": 443,
+  "_comment": "TRUE NEGATIVE — พนักงานใช้ Telegram จากโซน LAN ตามปกติ ต้องไม่ alert"
+}

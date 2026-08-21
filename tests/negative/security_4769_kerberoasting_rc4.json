@@ -1,0 +1,11 @@
+{
+  "EventID": 4769,
+  "Channel": "Security",
+  "Computer": "DC01.corp.example.co.th",
+  "ServiceName": "HTTP/portal.example.co.th",
+  "TicketEncryptionType": "0x12",
+  "TicketOptions": "0x40810000",
+  "IpAddress": "198.51.100.30",
+  "TargetUserName": "normal.user",
+  "_comment": "TRUE NEGATIVE — ขอตั๋วด้วย AES256 (0x12) ตามปกติ ต้องไม่ alert"
+}

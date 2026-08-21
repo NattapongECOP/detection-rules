@@ -1,0 +1,37 @@
+title: Telegram Traffic Originating from a Server Zone (Possible C2 / Exfiltration)
+id: 3b4eab7a-c2d1-4793-adbc-85dc9c8d32c0
+status: experimental
+description: |
+  Detects allowed outbound Telegram traffic (firewall application-id) that originates
+  from a server / DMZ / datacenter zone. Malware increasingly abuses Telegram's Bot API
+  as a command-and-control and data-exfiltration channel because it blends in with normal
+  chat traffic. While staff may legitimately use Telegram on workstations, a server
+  reaching Telegram is highly abnormal and warrants investigation.
+
+  telemetry: NGFW / Firewall traffic log with application identification (app-id) — log
+  ที่ลูกค้ามีอยู่แล้ว ปรับชื่อโซน (src_zone) และชื่อ app ให้ตรงกับอุปกรณ์ของคุณ
+references:
+  - https://attack.mitre.org/techniques/T1102/
+  - https://attack.mitre.org/techniques/T1567/
+author: Nattapong Suraraungchai
+date: 2026-09-16
+tags:
+  - attack.command-and-control
+  - attack.t1102
+  - ecop.telemetry.ngfw
+  - ecop.region.th
+logsource:
+  category: firewall
+detection:
+  selection:
+    action: 'allow'
+    app|contains: 'telegram'
+    src_zone|contains:
+      - 'server'
+      - 'dmz'
+      - 'datacenter'
+  condition: selection
+falsepositives:
+  - เซิร์ฟเวอร์ที่ใช้ Telegram แจ้งเตือนโดยชอบ (เช่น bot แจ้ง monitoring) — เพิ่มใน allowlist
+  - การจัดโซนที่ตีความ workstation เป็น server (ตรวจการ mapping โซน)
+level: high

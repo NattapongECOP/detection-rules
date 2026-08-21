@@ -1,0 +1,57 @@
+title: Popular Software Installer Downloaded from a Non-Official Domain
+id: f9d454e1-60e5-4a3e-ac40-b682fdf66e12
+status: experimental
+description: |
+  Detects downloading an executable/installer whose URL references a popular software
+  brand (Chrome, Zoom, AnyDesk, TeamViewer, Firefox, Telegram, Notepad++, WinRAR, Adobe)
+  from a domain that is NOT the vendor's official one. Attackers abuse malicious ads and
+  search-engine poisoning (SEO poisoning) to serve trojanised installers of well-known
+  software from look-alike domains — a very common initial-access and infostealer vector.
+
+  telemetry: Web Proxy / Secure Web Gateway log (c-uri, r-dns) — log ที่ลูกค้ามีอยู่แล้ว
+  ปรับ filter_official ให้ครอบโดเมนทางการ/มิเรอร์ภายในองค์กรของคุณเพิ่มเติม
+references:
+  - https://attack.mitre.org/techniques/T1204/002/
+  - https://attack.mitre.org/techniques/T1608/
+author: Nattapong Suraraungchai
+date: 2026-09-09
+tags:
+  - attack.initial-access
+  - attack.t1204.002
+  - ecop.telemetry.proxy
+  - ecop.region.th
+logsource:
+  category: proxy
+detection:
+  selection_installer:
+    c-uri|contains:
+      - '.exe'
+      - '.msi'
+      - '.dmg'
+  selection_brand:
+    c-uri|contains:
+      - 'chrome'
+      - 'zoom'
+      - 'anydesk'
+      - 'teamviewer'
+      - 'firefox'
+      - 'telegram'
+      - 'notepad'
+      - 'winrar'
+      - 'adobe'
+  filter_official:
+    r-dns|endswith:
+      - '.google.com'
+      - '.zoom.us'
+      - '.anydesk.com'
+      - '.teamviewer.com'
+      - '.mozilla.org'
+      - '.telegram.org'
+      - '.rarlab.com'
+      - '.adobe.com'
+      - '.microsoft.com'
+  condition: (selection_installer and selection_brand) and not filter_official
+falsepositives:
+  - มิเรอร์ดาวน์โหลดภายในองค์กร หรือ CDN/พาร์ทเนอร์ที่แจกซอฟต์แวร์โดยชอบ (เพิ่มใน filter_official)
+  - เว็บรีวิว/บทความที่มีชื่อไฟล์ในลิงก์แต่ไม่ใช่การดาวน์โหลดจริง (ตรวจ content-type/สถานะ)
+level: high

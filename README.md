@@ -26,7 +26,7 @@
 <div align="center">
 
 <!-- STATS:START — auto-generated, อย่าแก้มือ -->
-| 🎯 **44** | 🗺️ **11** | 🛰️ **7** | ⚡ **48 ชม.** | 🇹🇭 **2 ภาษา** |
+| 🎯 **48** | 🗺️ **11** | 🛰️ **7** | ⚡ **48 ชม.** | 🇹🇭 **2 ภาษา** |
 |:---:|:---:|:---:|:---:|:---:|
 | detection rules | ATT&CK tactics | telemetry sources | emerging-threat SLA | ไทย + อังกฤษ |
 <!-- STATS:END -->
@@ -69,15 +69,15 @@ sigma convert -t elasticsearch sigma/finance/proc_creation_win_lsass_dump_comsvc
 | Tactic | Rules | ตัวอย่างที่จับได้ |
 |---|:---:|---|
 | 📌 Persistence | 11 | Run key, scheduled task, service, Azure AD admin role |
-| 🚪 Initial Access | 9 | RDP เปิดออกเน็ต, SQLi, path traversal, **Log4Shell** |
+| 🚪 Initial Access | 10 | RDP เปิดออกเน็ต, SQLi, path traversal, **Log4Shell** |
+| 📡 Command & Control | 7 | LOLBin ต่อออกเน็ต, C2 ports, DNS แปลก |
 | 🥷 Defense Evasion | 7 | mshta, regsvr32 (Squiblydoo), ล้าง event log, ปิด MFA |
 | ▶️ Execution | 7 | PowerShell encoded, WMIC, **Office macro phishing** |
-| 🔑 Credential Access | 5 | **LSASS dump**, NTDS.dit, Kerberoasting |
-| 📡 Command & Control | 5 | LOLBin ต่อออกเน็ต, C2 ports, DNS แปลก |
+| 🔑 Credential Access | 6 | **LSASS dump**, NTDS.dit, Kerberoasting |
 | 📤 Exfiltration | 4 | SMB ออกนอก, **inbox forwarding (BEC)**, mailbox forward |
 | ⬆️ Privilege Escalation | 3 | service creation, Azure AD role |
-| ↔️ Lateral Movement | 2 | **PsExec**, WMIC remote |
 | 📦 Collection | 2 | M365 mail forwarding rules |
+| ↔️ Lateral Movement | 2 | **PsExec**, WMIC remote |
 | 💥 Impact | 1 | **ลบ shadow copy (ransomware)** |
 <!-- COVERAGE:END -->
 
